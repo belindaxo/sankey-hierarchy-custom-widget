@@ -252,6 +252,16 @@ var parseMetadata = metadata => {
                     pointFormatter: this._formatTooltipPoint(scaleFormat),
                     nodeFormatter: this._formatTooltipNode(scaleFormat),
                 },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            style: {
+                                fontWeight: 'normal'
+                            }
+                        }
+                    }
+                },
                 series: [{
                     keys: ['from', 'to', 'weight'],
                     nodes: formattedNodes,
