@@ -191,7 +191,7 @@ var parseMetadata = metadata => {
             console.log('nodes:', this.nodes);
             console.log('links:', this.links);
 
-            const validCategoryNames = series.map(s => s.name) || [];
+            const validCategoryNames = formattedNodes.map(n => n.name) || [];
             if (JSON.stringify(this._lastSentCategories) !== JSON.stringify(validCategoryNames)) {
                 this._lastSentCategories = validCategoryNames;
                 this.dispatchEvent(new CustomEvent('propertiesChanged', {
