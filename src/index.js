@@ -52,6 +52,8 @@ var parseMetadata = metadata => {
             this.shadowRoot.innerHTML = `
                 <div id="container"></div>    
             `;
+
+            this._lastSentCategories = [];
         }
 
         /**
@@ -90,7 +92,8 @@ var parseMetadata = metadata => {
                 'chartTitle', 'titleSize', 'titleFontStyle', 'titleAlignment', 'titleColor',                // Title properties
                 'chartSubtitle', 'subtitleSize', 'subtitleFontStyle', 'subtitleAlignment', 'subtitleColor', // Subtitle properties
                 'scaleFormat', 'decimalPlaces',                                                             // Number formatting properties
-                'isInverted', "linkColorMode"                                                               // Sankey chart properties
+                'isInverted', "linkColorMode",                                                              // Sankey chart properties
+                'customColors'                                                                              // Custom colors
             ];
         }
 
@@ -175,7 +178,6 @@ var parseMetadata = metadata => {
             const formattedNodes = this.nodes.map(node => ({
                 id: node.name,
                 name: node.name,
-                ...(node.color && { color: node.color }), // Only include color if it exists
             }));
             const formattedData = this.links.map(link => ({
                 from: link.from,
@@ -189,13 +191,33 @@ var parseMetadata = metadata => {
             console.log('nodes:', this.nodes);
             console.log('links:', this.links);
 
+            const validCategoryNames = series.map(s => s.name) || [];
+            if (JSON.stringify(this._lastSentCategories) !== JSON.stringify(validCategoryNames)) {
+                this._lastSentCategories = validCategoryNames;
+                this.dispatchEvent(new CustomEvent('propertiesChanged', {
+                    detail: {
+                        properties: {
+                            validCategoryNames
+                        }
+                    }
+                }));
+            }
+
+            const customColors = this.customColors || [];
+            const colorMap = new Map(customColors.map(c => [c.category, c.color]));
+            formattedNodes.forEach(node => {
+                if (colorMap.has(node.name)) {
+                    node.color = colorMap.get(node.name);
+                }
+            });
+
             Highcharts.setOptions({
                 lang: {
                     thousandsSep: ','
                 },
                 colors: ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#006ac7', '#ccced2', '#bf8028', '#00e4a7']
             });
-
+            
             const chartOptions = {
                 chart: {
                     type: 'sankey',
@@ -235,7 +257,7 @@ var parseMetadata = metadata => {
                     nodes: formattedNodes,
                     data: formattedData,
                     type: 'sankey',
-                    linkColorMode: this.linkColorMode || 'from',
+                    linkColorMode: this.linkColorMode || 'to',
                 }]
             };
             this._chart = Highcharts.chart(this.shadowRoot.getElementById('container'), chartOptions);

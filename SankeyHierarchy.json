@@ -101,6 +101,16 @@
             "type": "string",
             "description": "The color mode of the links (from, to, gradient)",
             "default": "from"
+        },
+        "validCategoryNames": {
+            "type": "string[]",
+            "description": "List of valid dimension labels to allow category color selection",
+            "default": []
+        },
+        "customColors": {
+            "type": "CustomColor[]",
+            "description": "List of category-color mappings for nodes.",
+            "default": []
         }
     },
     "methods": {
@@ -140,6 +150,19 @@
                 {
                     "name": "value", 
                     "type": "number"
+                }
+            ]
+        },
+        "CustomColor": {
+            "description": "Represents a custom color for a measure (node).",
+            "properties": [
+                {
+                    "name": "category",
+                    "type": "string"
+                },
+                {
+                    "name": "color",
+                    "type": "string"
                 }
             ]
         }

@@ -1,3 +1,4 @@
+const defaultColors = ['#004b8d', '#939598', '#faa834', '#00aa7e', '#47a5dc', '#006ac7', '#ccced2', '#bf8028', '#00e4a7'];
 (function () {
     /**
      * Template for the Styling Panel (APS) of the Funnel3D widget.
@@ -152,8 +153,8 @@
             <tr>
                 <td>
                     <select id="linkColorMode">    
-                        <option value="from" selected>From</option>
-                        <option value="to">To</option>
+                        <option value="from">From</option>
+                        <option value="to" selected>To</option>
                         <option value="gradient">Gradient</option>
                 </td>
             </tr>
@@ -161,6 +162,13 @@
         <tr>
             <button id="resetDefaults" type="button" style="margin-top: 10px; margin-bottom: 10px;">Reset to Default</button>
         </tr>
+        <legend style="font-weight: bold; font-size: 18px;">Node Colors</legend>
+        <table>
+            <div id="categoryColorGrid" style="margin-top: 8px;"></div>
+            <tr>
+                <td><button type="button" id="resetColors">Reset Colors</button></td>
+            </tr>
+        </table>
         <input type="submit" style="display:none;">
         </form>
     `;
@@ -195,6 +203,60 @@
 
             this._shadowRoot = this.attachShadow({ mode: 'open' });
             this._shadowRoot.appendChild(template.content.cloneNode(true));
+
+            this.customColors = [];
+            const colorGridContainer = this._shadowRoot.getElementById('categoryColorGrid');
+
+            const renderCategoryColorGrid = () => {
+                colorGridContainer.innerHTML = '';
+                this.validCategoryNames.forEach(categoryName => {
+                    const wrapper = document.createElement('div');
+                    wrapper.style.display = 'flex';
+                    wrapper.style.alignItems = 'center';
+                    wrapper.style.marginBottom = '6px';
+
+                    const label = document.createElement('span');
+                    label.textContent = categoryName;
+                    label.style.width = '140px';
+
+                    const input = document.createElement('input');
+                    input.type = 'color';
+                    input.style.marginLeft = '8px';
+
+                    const currentColor = this.customColors.find(c => c.category === categoryName)?.color;
+                    const defaultIndex = this.validCategoryNames.indexOf(categoryName) % defaultColors.length;
+                    input.value = currentColor || defaultColors[defaultIndex];
+
+                    input.addEventListener('change', () => {
+                        const existing = this.customColors.find(c => c.category === categoryName);
+                        const updatedColor = input.value;
+                        if (existing) {
+                            if (updatedColor === defaultColors[defaultIndex]) {
+                                this.customColors = this.customColors.filter(c => c.category !== categoryName);
+                            } else {
+                                existing.color = updatedColor;
+                                this.customColors = [...this.customColors];
+                            }
+                        } else if (updatedColor !== defaultColors[defaultIndex]) {
+                            this.customColors = [...this.customColors, { category: categoryName, color: updatedColor }];
+                        }
+
+                        this._submit(new Event('submit')); // Trigger submit event to update properties
+                    });
+
+                    wrapper.appendChild(label);
+                    wrapper.appendChild(input);
+                    colorGridContainer.appendChild(wrapper);
+                });
+            };
+
+            const resetColorsButton = this._shadowRoot.getElementById('resetColors');
+            resetColorsButton.addEventListener('click', () => {
+                this.customColors = [];
+                renderCategoryColorGrid();
+                this._submit(new Event('submit')); 
+            });
+
             this._shadowRoot.getElementById('form').addEventListener('submit', this._submit.bind(this));
             this._shadowRoot.getElementById('titleSize').addEventListener('change', this._submit.bind(this));
             this._shadowRoot.getElementById('titleFontStyle').addEventListener('change', this._submit.bind(this));
@@ -228,6 +290,9 @@
                 }
                 this._submit(new Event('submit')); // Trigger submit event to update properties
             });
+
+            this._renderCategoryColorGrid = renderCategoryColorGrid;
+            renderCategoryColorGrid();
         }
         
         /**
@@ -252,7 +317,9 @@
                         scaleFormat: this.scaleFormat,
                         decimalPlaces: this.decimalPlaces,
                         isInverted: this.isInverted,
-                        linkColorMode: this.linkColorMode
+                        linkColorMode: this.linkColorMode,
+                        validCategoryNames: this.validCategoryNames,
+                        customColors: this.customColors
                     }
                 }
             }));
@@ -373,6 +440,28 @@
 
         set linkColorMode(value) {
             this._shadowRoot.getElementById('linkColorMode').value = value;
+        }
+
+        get customColors() {
+            return this._customColors || [];
+        }
+
+        set customColors(value) {
+            this._customColors = value || [];
+            if (this._renderCategoryColorGrid && this._validCategoryNames) {
+                this._renderCategoryColorGrid(); 
+            }
+        }
+
+        get validCategoryNames() {
+            return this._validCategoryNames || [];
+        }
+        
+        set validCategoryNames(value) {
+            this._validCategoryNames = value || [];
+            if (this._renderCategoryColorGrid && this._customColors) {
+                this._renderCategoryColorGrid(); 
+            }
         }
     }
     customElements.define('com-sap-sample-sankey-hierarchy-aps', SankeyHierarchyAps);
