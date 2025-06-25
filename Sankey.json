@@ -1,0 +1,163 @@
+{
+    "name": "Sankey Chart (Hierarchy)",
+    "description": "A Sankey chart for hierarchical dimensions.",
+    "eula": "",
+    "vendor": "",
+    "license": "",
+    "id": "com.sap.sample.sankeyHierarchy",
+    "newInstancePrefix": "sankeyHierarchy",
+    "version": "1.0.0",
+    "webcomponents": [
+        {
+            "kind": "main",
+            "tag": "com-sap-sample-sankeyHierarchy",
+            "url": "https://belindaxo.github.io/sankey-hierarchy-custom-widget/dist/bundle.js",
+            "integrity": "",
+            "ignoreIntegrity": true
+        },
+        {
+            "kind": "styling",
+            "tag": "com-sap-sample-sankeyHierarchy-aps",
+            "url": "https://belindaxo.github.io/sankey-hierarchy-custom-widget/dist/bundle.js",
+            "integrity": "",
+            "ignoreIntegrity": true
+        }
+    ],
+    "properties": {
+        "width": {
+            "type": "integer",
+            "default": 600
+        },
+        "height": {
+            "type": "integer",
+            "default": 400
+        },
+        "chartTitle": {
+            "type": "string",
+            "description": "The title of the chart",
+            "default": ""
+        },
+        "titleSize": {
+            "type": "string",
+            "description": "The font size of the title text",
+            "default": "16px"
+        },
+        "titleFontStyle": {
+            "type": "string",
+            "description": "The font style of the title text",
+            "default": "bold"
+        },
+        "titleAlignment": {
+            "type": "string",
+            "description": "The alignment of the title text",
+            "default": "left"
+        },
+        "titleColor": {
+            "type": "string",
+            "description": "The color of the title text",
+            "default": "#004B8D"
+        },
+        "chartSubtitle": {
+            "type": "string",
+            "description": "The subtitle of the chart",
+            "default": ""
+        },
+        "subtitleSize": {
+            "type": "string",
+            "description": "The font size of the subtitle text",
+            "default": "11px"
+        },
+        "subtitleFontStyle": {
+            "type": "string",
+            "description": "The font style of the subtitle text",
+            "default": "normal"
+        },
+        "subtitleAlignment": {
+            "type": "string",
+            "description": "The alignment of the subtitle text",
+            "default": "left"
+        },
+        "subtitleColor": {
+            "type": "string",
+            "description": "The color of the subtitle text",
+            "default": "#000000"
+        },
+        "scaleFormat": {
+            "type": "string",
+            "description": "The scale of the numbers (unformatted, k, m, b)",
+            "default": "unformatted"
+        },
+        "decimalPlaces": {
+            "type": "integer",
+            "description": "The number of decimal places to display",
+            "default": 2
+        },
+        "isInverted": {
+            "type": "boolean",
+            "description": "Whether the chart is inverted",
+            "default": false
+        },
+        "linkColorMode": {
+            "type": "string",
+            "description": "The color mode of the links (from, to, gradient)",
+            "default": "from"
+        }
+    },
+    "methods": {
+        "getNodes": {
+            "description": "Returns the nodes array of the chart instance.",
+            "returnType": "Node[]"
+        },
+        "getLinks": {
+            "description": "Returns the links array of the chart instance.",
+            "returnType": "Link[]"
+        }
+    },
+    "events": {
+
+    },
+    "types": {
+        "Node": {
+            "description": "Represents a node in the Sankey chart.",
+            "properties": [
+                {
+                    "name": "name", 
+                    "type": "string"
+                }
+            ]
+        },
+        "Link": {
+            "description": "Represents a link in the Sankey chart.",
+            "properties": [
+                {
+                    "name": "from", 
+                    "type": "string"
+                },
+                {
+                    "name": "to", 
+                    "type": "string"
+                },
+                {
+                    "name": "value", 
+                    "type": "number"
+                }
+            ]
+        }
+    },
+    "dataBindings": {
+        "dataBinding": {
+            "feeds": [
+                {
+                    "id": "dimensions",
+                    "description": "Dimensions",
+                    "type": "dimension"
+                },
+                {
+                    "id": "measures",
+                    "description": "Measures",
+                    "type": "mainStructureMember"
+                }
+            ]
+        }
+    }
+}
