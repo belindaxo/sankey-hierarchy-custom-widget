@@ -4,20 +4,20 @@
     "eula": "",
     "vendor": "",
     "license": "",
-    "id": "com.sap.sample.sankeyHierarchy",
+    "id": "com.sap.sample.sankey.hierarchy",
     "newInstancePrefix": "sankeyHierarchy",
     "version": "1.0.0",
     "webcomponents": [
         {
             "kind": "main",
-            "tag": "com-sap-sample-sankeyHierarchy",
+            "tag": "com-sap-sample-sankey-hierarchy",
             "url": "https://belindaxo.github.io/sankey-hierarchy-custom-widget/dist/bundle.js",
             "integrity": "",
             "ignoreIntegrity": true
         },
         {
             "kind": "styling",
-            "tag": "com-sap-sample-sankeyHierarchy-aps",
+            "tag": "com-sap-sample-sankey-hierarchy-aps",
             "url": "https://belindaxo.github.io/sankey-hierarchy-custom-widget/dist/bundle.js",
             "integrity": "",
             "ignoreIntegrity": true

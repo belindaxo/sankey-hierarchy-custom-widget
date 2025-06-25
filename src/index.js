@@ -348,5 +348,5 @@ var parseMetadata = metadata => {
             return this.links;
         }
     }
-    customElements.define('com-sap-sample-sankeyHierarchy', SankeyHierarchy);
+    customElements.define('com-sap-sample-sankey-hierarchy', SankeyHierarchy);
 })();

@@ -375,5 +375,5 @@
             this._shadowRoot.getElementById('linkColorMode').value = value;
         }
     }
-    customElements.define('com-sap-sample-sankeyHierarchy-aps', SankeyHierarchyAps);
+    customElements.define('com-sap-sample-sankey-hierarchy-aps', SankeyHierarchyAps);
 })();
