@@ -1,5 +1,6 @@
 import * as Highcharts from 'highcharts';
 import 'highcharts/modules/sankey';
+import { handlePointClick } from './interactions/eventHandlers';
 
 /**
  * Parses metadata into structured dimensions and measures.
@@ -54,6 +55,7 @@ var parseMetadata = metadata => {
             `;
 
             this._lastSentCategories = [];
+            this._selectedPoint = null;
         }
 
         /**
@@ -81,6 +83,7 @@ var parseMetadata = metadata => {
                 this._chart.destroy();
                 this._chart = null;
             }
+            this._selectedPoint = null;
         }
 
         /**
@@ -121,6 +124,7 @@ var parseMetadata = metadata => {
                 if (this._chart) {
                     this._chart.destroy();
                     this._chart = null;
+                    this._selectedPoint = null;
                 }
                 return;
             }
@@ -132,6 +136,7 @@ var parseMetadata = metadata => {
                 if (this._chart) {
                     this._chart.destroy();
                     this._chart = null;
+                    this._selectedPoint = null;
                 }
                 return;
             }
@@ -211,6 +216,8 @@ var parseMetadata = metadata => {
                 }
             });
 
+            const onPointClick = (event) => handlePointClick(event, dataBinding, dimensions, this);
+
             Highcharts.setOptions({
                 lang: {
                     thousandsSep: ','
@@ -258,6 +265,14 @@ var parseMetadata = metadata => {
                             enabled: true,
                             style: {
                                 fontWeight: 'normal'
+                            }
+                        },
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                select: onPointClick,
+                                unselect: onPointClick
                             }
                         }
                     }
