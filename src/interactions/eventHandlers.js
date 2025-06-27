@@ -16,7 +16,7 @@ export function handlePointClick(event, dataBinding, dimensions, widget) {
     const dimension = dimensions[0];
     const dimensionKey = dimension.key;
     const dimensionId = dimension.id;
-    const label = point.to || 'No Label';
+    const label = point.options.isNode ? point.name : point.to;
     console.log('Dimension key:', dimensionKey);
     console.log('Dimension ID:', dimensionId);
     console.log('Label:', label);
