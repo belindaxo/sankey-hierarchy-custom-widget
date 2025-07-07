@@ -13,15 +13,15 @@
             "kind": "main",
             "tag": "com-sap-sample-sankey-hierarchy",
             "url": "https://belindaxo.github.io/sankey-hierarchy-custom-widget/dist/bundle.js",
-            "integrity": "",
-            "ignoreIntegrity": true
+            "integrity": "sha256-FLH+6huz4u0UbYoIPjwTRYCVA12H2Zl8ZRgXCWZ93Pk=",
+            "ignoreIntegrity": false
         },
         {
             "kind": "styling",
             "tag": "com-sap-sample-sankey-hierarchy-aps",
             "url": "https://belindaxo.github.io/sankey-hierarchy-custom-widget/dist/bundle.js",
-            "integrity": "",
-            "ignoreIntegrity": true
+            "integrity": "sha256-FLH+6huz4u0UbYoIPjwTRYCVA12H2Zl8ZRgXCWZ93Pk=",
+            "ignoreIntegrity": false
         }
     ],
     "properties": {
